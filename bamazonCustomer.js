@@ -118,4 +118,4 @@ function quantityAndCost (response, result) {
         }
     );
     connection.end();
-}
+};
