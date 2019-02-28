@@ -1,3 +1,6 @@
+//require("dotenv").config();
+//var keys = require("./keys.js");
+//var mysqlConfig = new MysqlConfig(keys.mysqlConfig);
 
 var mysql = require("mysql");
 var inquirer = require("inquirer");
@@ -75,8 +78,9 @@ function buyItem () {
         ])
         .then(function(response) {
             quantitySearch(response);
-        })
+    })
 }
+
 
 function quantitySearch (response) {
     connection.query(
@@ -90,7 +94,10 @@ function quantitySearch (response) {
                 if (response.id === result[0].item_id || response.quantity <= result[0].stock_quantity) {
                     console.log("You want to purchase " + response.quantity + " of Item ID #" + response.id + " - " + result[0].product_name);
                     console.log("\r");
+
                     quantityAndCost(response, result); 
+                    salesIncome (response, result);
+
                     var cost = result[0].price * parseFloat(response.quantity);
                     console.log("The total for your order is $" + (cost.toFixed(2)));
                 } else {
@@ -117,5 +124,54 @@ function quantityAndCost (response, result) {
             }
         }
     );
-    connection.end();
 };
+
+function salesIncome (response, result) {
+
+    var cost = result[0].price * parseFloat(response.quantity);
+        cost = cost.toFixed(2);
+    var income = parseFloat(cost + result[0].product_sales);
+        income = income.toFixed(2);
+    
+
+    connection.query(
+        'UPDATE products SET product_sales = "' + income +'" WHERE item_id = "' + response.id +'"',
+        function(error, result2) {
+            if (error) {
+                console.log(error);
+            } else {
+                return result2;
+            }
+        }
+    );
+
+    connection.query(
+        'SELECT * FROM departments WHERE department_name ="' + result[0].department_name +'"',
+        function (error, result3) {
+            if (error) {
+                console.log(error);
+            } else {
+                var current = result3[0].product_sales;
+                    current = parseFloat(current).toFixed(2)
+                
+                var gross = parseFloat(income) + parseFloat(current);
+
+                updateDeptSales(gross, result);
+            };
+        }
+    );             
+};
+
+function updateDeptSales (gross, result) {
+    connection.query(
+        'UPDATE departments SET product_sales = "' + gross +'" WHERE department_name = "' + result[0].department_name +'"',
+        function(error, result4) {
+            if (error) {
+                console.log(error);
+            } else {
+                return result4;
+            }
+        }
+    );
+    connection.end();
+}

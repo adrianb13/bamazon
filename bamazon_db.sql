@@ -2,14 +2,13 @@ DROP DATABASE bamazon_db;
 CREATE DATABASE bamazon_db;
 USE bamazon_db;
 
-
-
 CREATE TABLE products (
 item_id int(11) AUTO_INCREMENT NOT NULL,
 product_name varchar(50) NOT NULL,
 department_name varchar(50) NOT NULL,
 price decimal(10,2),
 stock_quantity int(11),
+product_sales decimal(10,2) DEFAULT 0.00,
 PRIMARY KEY (item_id)
 );
 
@@ -31,5 +30,20 @@ VALUES ("Non-Stick Pans (3 Piece Set)", "Cooking", 24.99, 10),
     ("Tupperware Set (18 Piece Set)", "Cooking", 14.99, 20),
     ("Dining Utensils (18 Piece Set)", "Cooking", 20.99, 15);
 
+-- USE bazamon_db;
+
+CREATE TABLE departments (
+department_id int(11) AUTO_INCREMENT NOT NULL,
+department_name varchar(50) NOT NULL,
+overhead_costs decimal(10,2) NOT NULL,
+product_sales decimal(10,2) DEFAULT 0.00,
+PRIMARY KEY (department_id)
+);
+
+INSERT INTO departments (department_name, overhead_costs)
+VALUES ("Cleaning", 917.65),
+	("Cooking", 1974.1);
+
 -- USE bamazon_db;    
 SELECT * FROM products;
+SELECT * FROM departments;
