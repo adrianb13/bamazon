@@ -5,7 +5,7 @@ var mysqlConfig = {
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: 'UseYourPassword',
+    password: 'YourPassord',
     database: 'bamazon_db'
 };
 

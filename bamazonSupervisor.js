@@ -6,7 +6,7 @@ var mysqlConfig = {
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: 'UseYourPassword',
+    password: 'YourPassword',
     database: 'bamazon_db'
 };
 
@@ -89,7 +89,7 @@ function newDept () {
             },
             {
                 type: "input",
-                message: "What is the current overhead cost for this department?",
+                message: "What is the current overhead cost for this dept? (Do NOT include $)",
                 name: "overhead",
                 validate: function(value) {
                     if (isNaN(value) === false) {
