@@ -5,8 +5,8 @@ var consoleTable = require("console.table");
 var mysqlConfig = {
     host: 'localhost',
     port: 3306,
-    user: 'root',
-    password: 'Mysql4me!',
+    user: 'Your Username',
+    password: 'Your Password',
     database: 'bamazon_db'
 };
 
